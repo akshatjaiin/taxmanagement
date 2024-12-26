@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tax Management System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --secondary-color: #818cf8;
+            --bg-gradient: linear-gradient(120deg, #1e1b4b, #312e81);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-gradient);
+            color: #e5e7eb;
+            min-height: 100vh;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1.5rem;
+            margin: 1rem;
+        }
+
+        .glow {
+            box-shadow: 0 0 15px rgba(79, 70, 229, 0.3);
+        }
+
+        .hover-scale {
+            transition: transform 0.2s;
+        }
+
+        .hover-scale:hover {
+            transform: scale(1.02);
+        }
+
+        .grid-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background-color: #ef4444;
+            border-radius: 50%;
+        }
+
+        .upload-zone {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--primary-color);
+            background: rgba(79, 70, 229, 0.1);
+        }
+
+        .progress-ring {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="fixed top-0 z-50 w-full bg-opacity-70 backdrop-blur-lg border-b border-gray-700">
+        <div class="px-3 py-3 lg:px-5 lg:pl-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center justify-start">
+                    <button type="button" class="p-2 rounded-lg hover:bg-gray-700 focus:ring-2 focus:ring-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                    <span class="ml-4 text-xl font-semibold">AI Tax Management</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button class="relative p-2 rounded-lg hover:bg-gray-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
+                        <div class="notification-dot"></div>
+                    </button>
+                    <button class="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-700">
+                        <img src="/api/placeholder/32/32" class="w-8 h-8 rounded-full" alt="User">
+                        <span>John Doe</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="pt-20 px-4">
+        <!-- Dashboard Overview -->
+        <div class="grid-dashboard">
+            <!-- Tax Savings Card -->
+            <div class="glass-card glow hover-scale">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="text-lg font-medium">Potential Tax Savings</h3>
+                        <p class="text-3xl font-bold mt-2">$12,450</p>
+                    </div>
+                    <div class="relative w-16 h-16">
+                        <svg class="w-full h-full">
+                            <circle class="progress-ring" cx="32" cy="32" r="28" stroke="currentColor" stroke-width="4" fill="none" stroke-dasharray="175.9 175.9" stroke-dashoffset="44"></circle>
+                        </svg>
+                        <span class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-sm font-medium">75%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tax Alerts Card -->
+            <div class="glass-card glow hover-scale">
+                <h3 class="text-lg font-medium mb-4">Tax Alerts</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3 p-3 rounded-lg bg-red-500 bg-opacity-20">
+                        <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                        </svg>
+                        <div>
+                            <p class="font-medium">Quarterly Tax Payment Due</p>
+                            <p class="text-sm opacity-75">Due in 5 days</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions Card -->
+            <div class="glass-card glow hover-scale">
+                <h3 class="text-lg font-medium mb-4">Quick Actions</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="p-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors">
+                        <svg class="w-6 h-6 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        Upload Receipt
+                    </button>
+                    <button class="p-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors">
+                        <svg class="w-6 h-6 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        View Report
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Receipt Upload Section -->
+        <div class="glass-card my-6">
+            <h2 class="text-2xl font-semibold mb-4">Upload Receipts</h2>
+            <div class="upload-zone">
+                <svg class="w-12 h-12 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                </svg>
+                <p class="mb-2 text-lg">Drop your receipts here or <span class="text-indigo-400">browse</span></p>
+                <p class="text-sm opacity-75">Supported formats: PNG, JPG, PDF</p>
+            </div>
+        </div>
+
+        <!-- AI Analysis Section -->
+        <div class="glass-card my-6">
+            <h2 class="text-2xl font-semibold mb-4">AI Tax Analysis</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <canvas id="expenseChart" class="w-full h-64"></canvas>
+                </div>
+                <div class="space-y-4">
+                    <div class="p-4 rounded-lg bg-opacity-20 bg-green-500">
+                        <h4 class="font-medium mb-2">Tax Saving Opportunities</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Home Office Deduction: $2,400
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Equipment Depreciation: $3,200
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Charts
+        const ctx = document.getElementById('expenseChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Monthly Expenses',
+                    data: [4500, 5200, 4800, 5700, 5100, 6200],
+                    borderColor: '#818cf8',
+                    tension: 0.4,
+                    fill: true,
+                    backgroundColor: 'rgba(129, 140, 248, 0.1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: '#e5e7eb'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: '#e5e7eb'
+                        }
+                    }
+                }
+            }
+        });
+
+        // File Upload Handler
+        const uploadZone = document.querySelector('.upload-zone');
+        
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('border-indigo-500');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('border-indigo-500');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('border-indigo-500');
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        function handleFiles(files) {
+            // Here you would implement the file upload logic
+            // For demonstration, we'll just log the files
+            console.log('Files to upload:', files);
+        }
+    </script>
+</body>
+</html>
